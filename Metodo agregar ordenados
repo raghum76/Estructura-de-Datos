@@ -1,0 +1,42 @@
+public void Add(Producto Prod)
+        {
+            if (inicio != null)
+            {
+                if (inicio.codigo > Prod.codigo)
+                {
+                    Prod.siguiente = inicio;
+                    inicio = Prod;
+                }
+                else
+                {
+                    aux = inicio;
+                    while (fin != aux)
+                    {
+                      
+                            if (aux.siguiente.codigo < Prod.codigo)
+                                aux = aux.siguiente;
+                            else
+                                break;
+                        
+                    }
+
+                    if (aux != fin)
+                    {
+                        Prod.siguiente = aux.siguiente;
+                        aux.siguiente = Prod;
+                    }
+                    else
+                    {
+                        aux.siguiente = Prod;
+                        fin = Prod;
+                    }
+
+                }
+            }
+            else
+            {
+                inicio = Prod;
+                fin = Prod;
+            }
+            cantidad++;
+        }
