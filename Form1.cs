@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Control_Inventario_EnlazadasSimples
@@ -26,7 +19,7 @@ namespace Control_Inventario_EnlazadasSimples
 
         private void cmd_Buscar_Click(object sender, EventArgs e)
         {
-            x.Buscar(int.Parse(txt_codigo.Text));
+            txt_Res.Text =  x.Buscar(int.Parse(txt_codigo.Text)).ToString();
         }
 
         private void cmd_Mostrar_Click(object sender, EventArgs e)
@@ -36,7 +29,7 @@ namespace Control_Inventario_EnlazadasSimples
 
         private void cmd_Borrar_Click(object sender, EventArgs e)
         {
-            x.Borrar(int.Parse(txt_codigo.Text));
+            x.Eliminar(int.Parse(txt_codigo.Text));
         }
 
         private void cmd_Insertar_Click(object sender, EventArgs e)

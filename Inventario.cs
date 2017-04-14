@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Control_Inventario_EnlazadasSimples
 {
     class Inventario
     {
-
-        List<Producto> inventario = new List<Producto>();
+        int cantidad = 0;
         Producto inicio = null;
+        Producto fin = null;
+        Producto aux = null;
 
         private bool _codigoRepetido = false;
         private bool _noElemento = false;
@@ -18,66 +15,53 @@ namespace Control_Inventario_EnlazadasSimples
         public bool codigoRepetido { get { return _codigoRepetido; } }
         public bool noElemento { get { return _noElemento; } }
 
-        public Inventario()
+        public Producto Buscar(int code)
         {
+            aux = inicio;
+            while (aux.codigo != code && aux != fin) 
+            {
+                aux = aux.siguiente;
+            }
+            if (aux == fin)
+                return null;
+            else
+                return aux;
         }
 
-
-        public Producto Buscar(int Codigo)
+        public void Agregar(Producto prod)
         {
-            int c = 0;
-            if (inicio != null)
+            if(inicio == null)
             {
-                while (c < inventario.Count && inventario[c].codigo != Codigo)
-                { c++; }
-
-                if (c != inventario.Count)
-                    return inventario[c];
-                else
-                    return null;
-
+                inicio = prod;
+                fin = prod;
             }
-            return null;
-        }
 
-        public void Agregar(Producto Articulo)
-        {
-            if (Buscar(Articulo.codigo) != null)
-            {
-                _codigoRepetido = true;
-            }
             else
             {
-                _codigoRepetido = false;
-                if(inicio==null)
-                {
-                    inicio = Articulo;
-                    inventario.Add(Articulo);
-                }
-                else
-                {
-                    inventario[inventario.Count - 1].siguiente = Articulo;
-                    inventario.Add(Articulo);
-                }
+                fin.siguiente = prod;
+                fin = prod;
             }
+
+            cantidad++;
         }
 
-        public void Borrar(int Codigo)
+        public void Eliminar(int code)
         {
-            int c = 0;
+            aux = inicio;
+
             _noElemento = false;
 
             if (inicio != null)
             {
-                if (Codigo != inicio.codigo)
+                if (code != aux.codigo)
                 {
-                    while (c < inventario.Count - 1 && inventario[c].siguiente.codigo != Codigo)
-                    { c++; }
+                    while (aux != fin && aux.siguiente.codigo != code)
+                    { aux = aux.siguiente; }
 
-                    if (c != inventario.Count - 1)
+                    if (aux != fin)
                     {
-                        inventario[c].siguiente = inventario[c].siguiente.siguiente;
-                        inventario.Remove(inventario[c + 1]);
+                        aux.siguiente = aux.siguiente.siguiente;
+                        cantidad--;
                     }
 
                     else
@@ -85,49 +69,44 @@ namespace Control_Inventario_EnlazadasSimples
                 }
                 else
                 {
-                    inventario.Remove(inventario[0]);
-                    inicio = inventario[0];
+                    inicio = inicio.siguiente;
+                    cantidad--;
                 }
-
             }
-            
         }
 
-        public void Insertar(Producto Articulo, int posicion)
+        public void Insertar(Producto prod, int posicion)
         {
-            if (inicio != null)
+            if (posicion == 0)
             {
-                if (posicion == 0)
+                prod.siguiente = inicio;
+                inicio = prod;
+                cantidad++;
+            }
+            else
+            {
+                aux = inicio;
+                for (int x = 1; x < posicion; x++)
                 {
-                    Articulo.siguiente = inventario[0];
-                    inicio = Articulo;
-                    inventario.Insert(0, Articulo);
+                    aux = aux.siguiente;
                 }
-                else
-                {
-                    if (posicion < inventario.Count)
-                    {
-                        inventario.Insert(posicion, Articulo);
-                        inventario[posicion - 1].siguiente = Articulo;
-                        inventario[posicion].siguiente = inventario[posicion + 1];
-                    }
-
-                }
+                prod.siguiente = aux.siguiente;
+                aux.siguiente = prod;
+                cantidad++;
             }
         }
-
+        
         public string Mostrar()
         {
             string res = "";
-            for (int i = 0; i < inventario.Count; i++)
+            aux = inicio;
+            for (int x = 0; x < cantidad; x++)
             {
-                res += inventario[i] + Environment.NewLine;
+                res += aux.ToString() + Environment.NewLine;
+                aux = aux.siguiente;
             }
             return res;
-
-
         }
-
-      
     }
+       
 }
