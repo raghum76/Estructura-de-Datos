@@ -20,6 +20,7 @@ namespace Control_Inventario_EnlazadasSimples
         private void cmd_Buscar_Click(object sender, EventArgs e)
         {
             txt_Res.Text =  x.Buscar(int.Parse(txt_codigo.Text)).ToString();
+            //Que pasara cuando no se encuentre lo que buscas?
         }
 
         private void cmd_Mostrar_Click(object sender, EventArgs e)
